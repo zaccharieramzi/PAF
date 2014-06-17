@@ -1,20 +1,25 @@
 package IHM;
 
-import java.awt.FlowLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
-public class PanneauPropositionSubjects extends JScrollPane{
+public class PanneauPropositionSubjects extends JPanel{
 	
 	
 	
 	public PanneauPropositionSubjects(ArrayList<String> subjects){
 		
-		FlowLayout mgr = new FlowLayout();
+		BoxLayout mgr = new BoxLayout(this,BoxLayout.Y_AXIS);
 		this.setLayout(mgr);
+		
+		this.setBorder(new TitledBorder(new LineBorder(Color.black, 1, true),"Liste des sujets de fiche disponibles"));
 		
 		ButtonGroup section = new ButtonGroup();
 		
@@ -24,6 +29,8 @@ public class PanneauPropositionSubjects extends JScrollPane{
 			section.add(subjectsList[i]);
 			this.add(subjectsList[i]);
 		}
+		
+		
 	}
 
 	

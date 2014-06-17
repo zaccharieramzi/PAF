@@ -10,33 +10,42 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 	private ArrayList<String> locations;
 	private ArrayList<String> subjects;
 
+	public RecepteurDeCriteres(){
+		this.periodes=new ArrayList<String>();
+		this.domaines=new ArrayList<String>();
+		this.references=new ArrayList<String>();
+		this.locations=new ArrayList<String>();
+		this.subjects=new ArrayList<String>();
+	}
 	@Override
-	public void addPeriod(String period) {
-		this.periodes.add(period);
+	public void setPeriod(ArrayList<String> period) {
+		this.periodes=period;
 		
 	}
 
 	@Override
-	public void addArtDomain(String domain) {
-		this.domaines.add(domain);
+	public void setArtDomain(ArrayList<String> domain) {
+		this.domaines=domain;
 		
 	}
 
 	@Override
-	public void addReference(String reference) {
-		this.references.add(reference);
+	public void setReference(ArrayList<String> reference) {
+		this.references=reference;
 		
 	}
 
 	@Override
-	public void addLocation(String location) {
-		this.locations.add(location);
+	public void setLocation(ArrayList<String> location) {
+		this.locations=location;
 		
 	}
 
 	@Override
 	public ArrayList<String> getSubjects() {
 	
+		subjects.add("La Joconde");
+		subjects.add("Le Parthénon");
 		return subjects;
 	}
 
@@ -66,7 +75,7 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 
 	@Override
 	public void addSubject(String subject) {
-		// TODO Auto-generated method stub
+		subjects.add(subject);
 		
 	}
 

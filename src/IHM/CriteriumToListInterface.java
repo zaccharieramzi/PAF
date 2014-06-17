@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public interface CriteriumToListInterface {
 	
-	void addPeriod(String period);
-	void addArtDomain(String domain);
-	void addReference(String reference);
-	void addLocation(String location);
+	void setPeriod(ArrayList<String> period);
+	void setArtDomain(ArrayList<String> domain);
+	void setReference(ArrayList<String> reference);
+	void setLocation(ArrayList<String> location);
 	ArrayList<String> getSubjects();
 	ArrayList<String> getPeriod();
 	ArrayList<String> getArtDomain();
