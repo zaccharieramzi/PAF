@@ -6,11 +6,14 @@ import javax.swing.JPanel;
 public class FenetreSelectionDeCriteres extends JFrame{
 	private PanneauCriteres panneauCriteres ;
 	private PanneauPropositionSubjects panneauPropositionSubjects;
+	private RecepteurDeCriteres rdc;
 
 	private JPanel panneauPrinc ;
 	public FenetreSelectionDeCriteres(){
-		panneauCriteres= new PanneauCriteres();
-		panneauPropositionSubjects = new PanneauPropositionSubjects();
+		rdc = new RecepteurDeCriteres();
+		panneauCriteres= new PanneauCriteres(rdc);
+		panneauPropositionSubjects = new PanneauPropositionSubjects(rdc.getSubjects());
+		
 		panneauPrinc = new JPanel();
 		panneauPrinc.add(panneauCriteres);
 		panneauPrinc.add(panneauPropositionSubjects);
@@ -21,4 +24,6 @@ public class FenetreSelectionDeCriteres extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
+	
+	
 }

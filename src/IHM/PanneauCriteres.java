@@ -1,7 +1,11 @@
 package IHM;
 
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class PanneauCriteres extends JPanel{
+public class PanneauCriteres extends JScrollPane{
+	
+	public PanneauCriteres(RecepteurDeCriteres rdc){
+		
+	}
 
 }
