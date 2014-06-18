@@ -44,8 +44,17 @@ public class FenetreSelectionDeCriteres extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Valider")){
-			
+			this.valider();
 		}
 		
+	}
+	
+	private void valider(){
+		SubjectToFiche stf = new SubjectToFiche();
+		stf.setDate("1994");
+		stf.setAuthorName("Zaccharie Ramzi");
+		stf.setComposer("Mohamed et Agnès Ramzi");
+		stf.setNature("Etre humain");
+		new FenetreFiche(stf);
 	}
 }

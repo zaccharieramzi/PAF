@@ -20,6 +20,7 @@ public interface SubjectToFicheInterface {
 	String getTechnique();
 	String getImpression();
 	String getOpening();
+	String get(String info);
 	void setFicheType(String ficheType); 
 	void setAuthorName(String authorName);
 	void setNature(String nature); 
@@ -36,5 +37,6 @@ public interface SubjectToFicheInterface {
 	void setTechnique(String technique);
 	void setImpression(String impression);
 	void setOpening(String opening);
+	
 
 }
