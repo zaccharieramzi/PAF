@@ -55,6 +55,7 @@ public class FenetreSelectionDeCriteres extends JFrame implements ActionListener
 		stf.setAuthorName("Zaccharie Ramzi");
 		stf.setComposer("Mohamed et Agnès Ramzi");
 		stf.setNature("Etre humain");
+		stf.setSubject("moi");
 		new FenetreFiche(stf);
 	}
 }
