@@ -15,7 +15,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		MonConnecteur mc = new MonConnecteur();
-		System.out.println(mc.accederA("http://www.koreus.com"));
+		System.out.println(mc.accederA("http://www.google.com"));
 	}
 
 }
