@@ -12,9 +12,13 @@ public class MonConnecteur {
 	private HttpURLConnection conn;
 	private BufferedReader rd;
 	private String line;
+	private String name;
+	private String authorName;
+	private String date;
+	private String type;
 
-	public String accederA(String urlToRead){
-		String result = "";
+	public void accederA(String urlToRead){
+		int cpt =0;
 		try {
 
 			url1 = new URL(urlToRead);
@@ -22,7 +26,19 @@ public class MonConnecteur {
 			conn.setRequestMethod("GET");
 			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((line = rd.readLine()) != null) {
-				result=result+"\n" + line;
+				System.out.println(line);
+				if(line.startsWith("    <td>")){
+					cpt++;
+					switch(cpt)
+					{
+					
+					case 1: authorName=line;break;
+					case 2: name = line; break;
+					case 3: type=line;break;
+					case 4: date =line;break;
+
+					}
+				}
 
 			}
 			rd.close();
@@ -31,7 +47,19 @@ public class MonConnecteur {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result;
+
 	}
 
+	public String getDate(){
+		return this.date;
+	}
+	public String getAuthorName(){
+		return this.authorName;
+	}
+	public String getName(){
+		return this.name;
+	}
+	public String getType(){
+		return this.type;
+	}
 }

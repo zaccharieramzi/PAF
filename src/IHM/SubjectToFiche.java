@@ -169,9 +169,13 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 		return result;
 	}
 	
-	private void loadFromURL(String URLToRead){
+	public void loadFromURL(String URLToRead){
 		MonConnecteur mc = new MonConnecteur();
-		String page = mc.accederA(URLToRead);
+		mc.accederA(URLToRead);
+		this.setDate(mc.getDate());
+		this.setAuthorName(mc.getAuthorName());
+		this.setNature(mc.getType());
+		this.setSubject(mc.getName());
 	}
 }
 	
