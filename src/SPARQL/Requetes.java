@@ -1,71 +1,47 @@
 
 package SPARQL;
 
-import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.util.IndentedWriter;
-import com.hp.hpl.jena.util.FileManager;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 
-public class JenaTest{
-        public static final String owlFile = "resource/famille.owl";
-        public static final String NL      = System.getProperty("line.separator") ;
-        public static void main( String[] args ) {
-                
-                // Creation d'un modele d'ontologie pour une ontologie OWL-DL avec un resonneur RDFS
-                Model m = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RDFS_INF);
-                
-                // Lecture du fichier OWL. Le Namespace de notre ontologie doit etre specifié
-                FileManager.get().readModel( m, owlFile );
-                String myOntologyName = "famille";
-                String myOntologyNS   = "http://univ-tln.fr/m2sis/owl/famille#";
-                
-                // Définition de prefixe pour simplifier l'utilisation de SPARQL
-                String rdfPrefix        = "PREFIX rdf: <"+RDF.getURI()+">" ;
-                String myOntologyPrefix = "PREFIX "+myOntologyName+": <"+myOntologyNS+">" ;
-                
-                
-                // Construction de la requete
-                String queryString =   myOntologyPrefix + NL 
-                                     + rdfPrefix + NL +
-                                       "SELECT ?individu WHERE {?individu rdf:type famille:Homme }" ;
-                
-                Query query = QueryFactory.create(queryString) ;
-                
-                // Affichage de la requete sur la sortie standard.
-                query.serialize(new IndentedWriter(System.out,true)) ;
-                System.out.println() ;
-                
-                // Create a single execution of this query, apply to a model
-                // which is wrapped up as a Dataset
-                QueryExecution qexec = QueryExecutionFactory.create(query, m) ;
-                
-                // Execution de la requete
-                try {
-                        // Pour l'instant nous nous limitons a des requetes de type SELECT
-                        ResultSet rs = qexec.execSelect() ;
-                        
-                        // Affichage des resultats
-                        for ( ; rs.hasNext() ; ){
-                                QuerySolution rb = rs.nextSolution() ;
-                                RDFNode y = rb.get("individu");
-                                System.out.print("uri : "+y+"--- ");
-                                Resource z = (Resource) rb.getResource("individu");
-                                System.out.println("plus simplement "+z.getLocalName());
-                        }
-                }
-                finally{
-                  qexec.close() ;
-                }
-        }
+public class Requetes{
+	public static void main( String[] args ) {
+		String queryString=
+				"PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
+						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
+						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+						"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+						"PREFIX foaf: <http://xmlns.com/foaf/0.1/>" +
+						"PREFIX dc: <http://purl.org/dc/elements/1.1/>" +
+						"PREFIX : <http://dbpedia.org/resource/>" +
+						"PREFIX dbpedia2: <http://dbpedia.org/property/>" +
+						"PREFIX dbpedia: <http://dbpedia.org/>"+
+						"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
+						"select * where {"
+						+ "<http://dbpedia.org/resource/Nighthawks> <http://dbpedia.org/ontology/author> ?auteur;"
+						+ "<http://dbpedia.org/property/title> ?name;"
+						+ "<http://dbpedia.org/property/type> ?type;"
+						+ "<http://dbpedia.org/property/year> ?date"
+						+ "}";
+
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/snorql", query);
+
+		try {
+			ResultSet results = qexec.execSelect();
+			for (; results.hasNext();) {
+
+				System.out.println(results);
+			}
+		}
+		finally {
+			qexec.close();
+		}
+	}
 }
+            			  
+            		
