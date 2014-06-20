@@ -27,7 +27,7 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 		String[] arg0 = {"Antiquité","Moyen-Age","Renaissance","Temps Modernes","XXeme siecle","XXIeme siecle"};
 		panneauPeriode= new PanneauPeriode(arg0);
 		this.add(panneauPeriode);
-		String[] arg1 ={"Art visuel","Art spatial","Art auditif"};
+		String[] arg1 ={"Film","Sculpture","Musique","Tableau"};
 		panneauDomaine= new PanneauDomaine(arg1);
 		this.add(panneauDomaine);
 		
