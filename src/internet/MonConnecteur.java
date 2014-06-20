@@ -8,17 +8,17 @@ import java.net.URL;
 
 public class MonConnecteur {
 	
-	private URL url;
+	private URL url1;
 	private HttpURLConnection conn;
 	private BufferedReader rd;
 	private String line;
 
-	public String accederA(String urlToRead){
+	public String accederA(String urlToRead1){
 		String result = "";
 		try {
 
-			url = new URL(urlToRead);
-			conn = (HttpURLConnection) url.openConnection();
+			url1 = new URL("http://www.google.com");
+			conn = (HttpURLConnection) url1.openConnection();
 			conn.setRequestMethod("GET");
 			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((line = rd.readLine()) != null) {
