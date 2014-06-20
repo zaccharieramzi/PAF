@@ -1,5 +1,7 @@
 package IHM;
 
+import internet.MonConnecteur;
+
 public class SubjectToFiche implements SubjectToFicheInterface {
 	private String subject, ficheType, authorName, nature, date, composer, edition, dimension, location, description, period, artDomain, conservationLocation, authorBiography, technique, impression, opening;
 
@@ -165,6 +167,11 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 		
 		}
 		return result;
+	}
+	
+	private void loadFromURL(String URLToRead){
+		MonConnecteur mc = new MonConnecteur();
+		String page = mc.accederA(URLToRead);
 	}
 }
 	
