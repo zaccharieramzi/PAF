@@ -172,10 +172,10 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 	public void loadFromURL(String URLToRead){
 		MonConnecteur mc = new MonConnecteur();
 		mc.accederA(URLToRead);
-		this.setDate(mc.getDate());
-		this.setAuthorName(mc.getAuthorName());
-		this.setNature(mc.getType());
-		this.setSubject(mc.getName());
+		this.setDate(mc.getDate().substring(8));
+		this.setAuthorName(mc.getAuthorName().substring(45));
+		this.setNature(mc.getType().substring(45));
+		this.setSubject(mc.getName().substring(9));
 	}
 }
 	
