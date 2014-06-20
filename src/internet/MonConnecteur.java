@@ -13,11 +13,11 @@ public class MonConnecteur {
 	private BufferedReader rd;
 	private String line;
 
-	public String accederA(String urlToRead1){
+	public String accederA(String urlToRead){
 		String result = "";
 		try {
 
-			url1 = new URL("http://www.google.com");
+			url1 = new URL(urlToRead);
 			conn = (HttpURLConnection) url1.openConnection();
 			conn.setRequestMethod("GET");
 			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
