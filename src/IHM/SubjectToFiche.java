@@ -175,7 +175,7 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 		this.setDate(mc.getDate().substring(8));
 		this.setAuthorName(mc.getAuthorName().substring(45));
 		this.setNature(mc.getType().substring(45));
-		this.setSubject(mc.getName().substring(9));
+		this.setSubject(mc.getName().substring(9,19));
 	}
 }
 	
