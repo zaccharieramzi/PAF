@@ -8,8 +8,10 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 
 
+
 public class Requetes{
 	public static void main( String[] args ) {
+		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
 		String queryString=
 				"PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
 						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
@@ -44,4 +46,4 @@ public class Requetes{
 	}
 }
             			  
-            		
+         
