@@ -27,7 +27,7 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 		this.rdc=rdc;
 		panneauPeriode= new PanneauPeriode();
 		this.add(panneauPeriode);
-		String[] arg1 ={"Film","Sculpture","Musique","Tableau"};
+		String[] arg1 ={"Film","Artwork","Monuments","Livre"};
 		panneauDomaine= new PanneauDomaine(arg1);
 		this.add(panneauDomaine);
 		panneauLocation = new PanneauLocation();

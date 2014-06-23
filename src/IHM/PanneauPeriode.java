@@ -28,7 +28,8 @@ public class PanneauPeriode extends JPanel{
 	
 	public ArrayList<String> actualize(){
 		ArrayList<String> result = new ArrayList<String>();
-		result.add(saisie1.getText()+"-"+saisie2.getText());
+		result.add(saisie1.getText());
+		result.add(saisie2.getText());
 		return result;
 	}
 	
