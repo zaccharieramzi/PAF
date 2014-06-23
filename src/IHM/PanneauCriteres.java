@@ -13,6 +13,7 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 	private RecepteurDeCriteres rdc;
 	private PanneauPeriode panneauPeriode;
 	private PanneauDomaine panneauDomaine;
+	private PanneauLocation panneauLocation;
 	private FenetreSelectionDeCriteres fenetre;
 	
 	public PanneauCriteres(RecepteurDeCriteres rdc,FenetreSelectionDeCriteres fenetre){
@@ -24,12 +25,13 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 		
 		
 		this.rdc=rdc;
-		String[] arg0 = {"Antiquité","Moyen-Age","Renaissance","Temps Modernes","XXeme siecle","XXIeme siecle"};
-		panneauPeriode= new PanneauPeriode(arg0);
+		panneauPeriode= new PanneauPeriode();
 		this.add(panneauPeriode);
 		String[] arg1 ={"Film","Sculpture","Musique","Tableau"};
 		panneauDomaine= new PanneauDomaine(arg1);
 		this.add(panneauDomaine);
+		panneauLocation = new PanneauLocation();
+		this.add(panneauLocation);
 		
 		JButton valider = new JButton("Valider");
 		valider.setActionCommand("Valider");
@@ -49,6 +51,7 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 	public void valider(){
 		rdc.setPeriod(panneauPeriode.actualize());
 		rdc.setArtDomain(panneauDomaine.actualize());
+		rdc.setLocation(panneauLocation.actualize());
 		fenetre.newCriterium();
 	}
 
