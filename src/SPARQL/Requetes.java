@@ -1,11 +1,16 @@
 
 package SPARQL;
 
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.jena.atlas.io.IndentedWriter;
+import org.apache.log4j.Logger;
+
+import com.github.jsonldjava.core.RDFDataset.Literal;
+import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.RDFNode;
+
 
 
 
@@ -31,13 +36,19 @@ public class Requetes{
 						+ "}";
 
 		Query query = QueryFactory.create(queryString);
-		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/snorql", query);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://www.dbpedia.org/sparql", query);
 
 		try {
 			ResultSet results = qexec.execSelect();
-			for (; results.hasNext();) {
-
-				System.out.println(results);
+			List<String> nomDeColonnes = results.getResultVars();
+				while (results.hasNext()) {
+			    QuerySolution row= results.next();
+			    for(int i =0; i<nomDeColonnes.size(); i++){
+			    	 RDFNode thing= row.get(nomDeColonnes.get(i));
+//					 Literal label=row.getLiteral(nomDeColonnes.get(i));
+					 System.out.println(thing.toString()+" is "+nomDeColonnes.get(i));
+			    }
+			   
 			}
 		}
 		finally {
