@@ -12,6 +12,12 @@ public class Requetes {
 	private ArrayList<String> nomDesVariables;
 	private ArrayList<String> valeurDesVariables;
 	
+	public Requetes(){
+		nomDesVariables = new ArrayList<String>();
+		valeurDesVariables = new ArrayList<String>();
+	}
+	
+	
 	public void executeQuery (String queryString){
 		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
 		
@@ -39,12 +45,18 @@ public class Requetes {
 	}
 
 	public ArrayList<String> getNomDesVariables() {
+		for (int index = 0 ; index< nomDesVariables.size() ; index ++){
+			System.out.println(nomDesVariables.get(index));
+		}
 		return nomDesVariables;
 	}
 
 	
 
 	public ArrayList<String> getValeurDesVariables() {
+		for (int index = 0 ; index< valeurDesVariables.size() ; index ++){
+			System.out.println(valeurDesVariables.get(index));
+		}
 		return valeurDesVariables;
 	}
 
