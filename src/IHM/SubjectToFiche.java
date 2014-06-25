@@ -181,6 +181,7 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 	
 	private String createURL2(){
 		String result="PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
+				"PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>"+
 				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
 				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
 				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
@@ -199,7 +200,7 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 					"<http://dbpedia.org/resource/"+subject+"> dbpprop:country ?film_country ."+
 					"<http://dbpedia.org/resource/"+subject+"> dbpprop:starring ?film_starring ."+
 					"FILTER(lang(?film_abstract ) = \"fr\" )."+
-					"}";
+					"}";break;
 			
 		case "Monuments":
 			result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
@@ -208,23 +209,22 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:designation2Date ?date }"+
 					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:region ?lieu}"+
 					"FILTER(lang(?description ) = \"fr\" )."+
-					"}";
+					"}";break;
 			
 		case "Artwork":
-			result+="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
-					"WHERE {"+
-					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
-					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia2:year ?date}"+
-					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:museum ?localisation}"+
-					"FILTER(lang(?description ) = \"fr\" )."+
-					"}";
+			result+="SELECT * WHERE {"+
+					"<http://dbpedia.org/resource/"+this.subject+"> dbpedia-owl:abstract ?description."+
+					"OPTIONAL{<http://dbpedia.org/resource/"+this.subject+"> dbpedia2:year ?date}"+
+					"OPTIONAL{<http://dbpedia.org/resource/"+this.subject+"> dbpedia-owl:museum ?localisation}"+
+					"FILTER(lang(?description ) = 'fr' )."+
+					"}";break;
 				
 		case "Livre" :
 			result+="SELECT DISTINCT ?livre ?description"+
 					"WHERE {"+
 					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
 					"FILTER(lang(?description)=\"fr\")"+
-					"}";
+					"}";break;
 		}
 		return result;
 	}

@@ -38,7 +38,9 @@ public class FenetreSelectionDeCriteres extends JFrame implements ActionListener
 	
 	public void newCriterium(){
 		panneauPropositionSubjects=new PanneauPropositionSubjects(rdc.getSubjects());
+		
 		panneauPrinc.repaint();
+		this.repaint();
 	}
 
 	@Override
@@ -50,6 +52,7 @@ public class FenetreSelectionDeCriteres extends JFrame implements ActionListener
 	}
 	
 	private void valider(){
+		
 		SubjectToFiche stf = new SubjectToFiche();
 		stf.setNature(rdc.getArtDomain().get(0));
 		stf.setSubject(rdc.getSubjects().get(0));
