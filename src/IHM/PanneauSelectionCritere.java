@@ -37,7 +37,7 @@ public class PanneauSelectionCritere extends JPanel {
 		ArrayList<String> listeSelect = new ArrayList<String>();
 		for(int i=0;i<checks.length;i++){
 			if (checks[i].isSelected()){
-				listeSelect.add(checks[i].getName());
+				listeSelect.add(checks[i].getText());
 			}
 		}
 		return listeSelect;

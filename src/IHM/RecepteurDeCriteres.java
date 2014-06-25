@@ -44,8 +44,9 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 	@Override
 	public ArrayList<String> getSubjects() {
 	
-		subjects.add("La Joconde");
-		subjects.add("Le Parthénon");
+		subjects.add("Le déjeuner sur l'herbe");
+		subjects.add("Guernica");
+		subjects.add("Nighthawks");
 		return subjects;
 	}
 
@@ -58,7 +59,7 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 	@Override
 	public ArrayList<String> getArtDomain() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.domaines;
 	}
 
 	@Override

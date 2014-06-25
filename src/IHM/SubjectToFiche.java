@@ -1,5 +1,6 @@
 package IHM;
 
+import SPARQL.Requetes;
 import internet.MonConnecteur;
 
 public class SubjectToFiche implements SubjectToFicheInterface {
@@ -176,6 +177,67 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 		this.setAuthorName(mc.getAuthorName().substring(45,mc.getAuthorName().length()-9));
 		this.setNature(mc.getType().substring(45,mc.getType().length()-9));
 		this.setSubject(mc.getName().substring(9,mc.getName().length()-9));
+	}
+	
+	private String createURL2(){
+		String result="PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>" +
+				"PREFIX dc: <http://purl.org/dc/elements/1.1/>" +
+				"PREFIX : <http://dbpedia.org/resource/>" +
+				"PREFIX dbpedia2: <http://dbpedia.org/property/>" +
+				"PREFIX dbpedia: <http://dbpedia.org/>"+
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>";
+		switch(nature){
+		case "Film":
+			result+="SELECT DISTINCT ?film_starring ?film_abstract ?film_language ?film_country "+
+					"WHERE {"+
+					"<http://dbpedia.org/resource/"+subject+"> rdfs:comment ?film_abstract ."+
+					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:language ?film_language ."+
+					"<http://dbpedia.org/resource/"+subject+"> dbpprop:country ?film_country ."+
+					"<http://dbpedia.org/resource/"+subject+"> dbpprop:starring ?film_starring ."+
+					"FILTER(lang(?film_abstract ) = \"fr\" )."+
+					"}";
+			
+		case "Monuments":
+			result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+					"WHERE {"+
+					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
+					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:designation2Date ?date }"+
+					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:region ?lieu}"+
+					"FILTER(lang(?description ) = \"fr\" )."+
+					"}";
+			
+		case "Artwork":
+			result+="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
+					"WHERE {"+
+					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
+					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia2:year ?date}"+
+					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:museum ?localisation}"+
+					"FILTER(lang(?description ) = \"fr\" )."+
+					"}";
+				
+		case "Livre" :
+			result+="SELECT DISTINCT ?livre ?description"+
+					"WHERE {"+
+					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
+					"FILTER(lang(?description)=\"fr\")"+
+					"}";
+		}
+		return result;
+	}
+	
+	public void loadFromQuery(){
+		Requetes rqt = new Requetes();
+		String queryString = this.createURL2();
+		rqt.executeQuery(queryString);
+		this.setDate(rqt.getValeurDesVariables().get(3));
+		this.setAuthorName(rqt.getValeurDesVariables().get(0));
+		this.setNature(rqt.getValeurDesVariables().get(2));
+		this.setSubject(rqt.getValeurDesVariables().get(1));
+		
 	}
 }
 	

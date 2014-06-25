@@ -1,6 +1,7 @@
 package IHM;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 
@@ -21,6 +22,8 @@ public class PanneauPeriode extends JPanel{
 		
 		this.saisie1= new JTextField("De");
 		this.saisie2=new JTextField("à");
+		this.saisie1.setPreferredSize(new Dimension(100,20));
+		this.saisie2.setPreferredSize(new Dimension(100,20));
 		this.add(saisie1);
 		this.add(saisie2);
 		
