@@ -11,6 +11,7 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 	private ArrayList<String> references;
 	private ArrayList<String> locations;
 	private ArrayList<String> subjects;
+	boolean flag = true;
 
 	public RecepteurDeCriteres(){
 		this.periodes=new ArrayList<String>();
@@ -21,25 +22,35 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 	}
 	
 	private String createURL(){
-		String result=null;
+		String result="PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
+				"PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>"+
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
+				"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+				"PREFIX foaf: <http://xmlns.com/foaf/0.1/>" +
+				"PREFIX dc: <http://purl.org/dc/elements/1.1/>" +
+				"PREFIX : <http://dbpedia.org/resource/>" +
+				"PREFIX dbpedia2: <http://dbpedia.org/property/>" +
+				"PREFIX dbpedia: <http://dbpedia.org/>"+
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>";
 		switch(domaines.get(0)){
 			case "Monuments":
 				if(periodes.get(0)==null||periodes.get(1)==null){
 					if(locations.get(0)==null){
-						result="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+						result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
 								"WHERE {"+
 
 								"?monument rdf:type <http://dbpedia.org/ontology/Building>."+
 								"?monument dbpedia-owl:abstract ?description."+
 								"OPTIONAL {?monument dbpprop:designation2Date ?date }"+
 								"OPTIONAL {?monument dbpprop:region ?lieu}"+
-								"FILTER(lang(?description) = \"fr\" )."+
+								"FILTER(lang(?description) = 'fr' )."+
 								"}"+
 								"LIMIT 20";
 
 					}
 					else{
-						result="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+						result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
 								"WHERE {"+
 
 								"?monument rdf:type <http://dbpedia.org/ontology/Building>."+
@@ -47,14 +58,14 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 								"OPTIONAL {?monument dbpprop:designation2Date ?date }"+
 								"?monument dbpprop:region ?lieu."+
 								"FILTER regex( ?lieu, "+locations.get(0)+")"+
-								"FILTER(lang(?description) = \"fr\" )."+
+								"FILTER(lang(?description) = 'fr' )."+
 								"}"+
 								"LIMIT 20";
 					}
 				}
 				else{
 					if(locations.get(0)==null){
-						result="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+						result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
 								"WHERE {"+
 
 								"?monument rdf:type <http://dbpedia.org/ontology/Building>."+
@@ -63,12 +74,12 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 								"OPTIONAL{ ?monument dbpprop:region ?lieu}"+
 								"FILTER(?date<"+periodes.get(1)+")"+
 								"FILTER (?date>"+periodes.get(0)+")"+
-								"FILTER(lang(?description) = \"fr\" )."+
+								"FILTER(lang(?description) = 'fr' )."+
 								"}"+
 								"LIMIT 20";
 					}
 					else{
-						result="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+						result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
 								"WHERE {"+
 
 								"?monument rdf:type <http://dbpedia.org/ontology/Building>."+
@@ -78,89 +89,89 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 								"FILTER regex( ?lieu, "+locations.get(0)+")"+
 								"FILTER(?date<"+periodes.get(1)+")"+
 								"FILTER (?date>"+periodes.get(0)+")"+
-								"FILTER(lang(?description) = \"fr\" )."+
+								"FILTER(lang(?description) = 'fr' )."+
 								"}"+
 								"LIMIT 20";
 					}
 						
 					
-				}
+				}; break;
 			case "Film":
-						result="SELECT DISTINCT "+
+						result+="SELECT DISTINCT "+
 								"?titre_film ?description ?date"+  
 								"WHERE {"+
 								"?titre_film rdf:type <http://dbpedia.org/ontology/Film> ."+
 								"?titre_film rdfs:comment ?description ."+
 								"OPTIONAL {?titre_film prop-fr:année ?date }"+
-								"FILTER(lang(?description) = \"fr\" )."+
+								"FILTER(lang(?description) = 'fr' )."+
 								"}"+
-								"LIMIT 20";
+								"LIMIT 20"; break;
 						
 						
-			case "Artworks":
+			case "Artwork":
 				if(periodes.get(0)==null||periodes.get(1)==null){
-					if(locations.get(0)==null){
-						result="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
+					if(locations.get(0)==null||locations.get(0)==""){
+						result+="SELECT DISTINCT ?titreoeuvre ?description ?date ?localisation"+
 								"WHERE {"+
-								"?titre_oeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
-								"?titre_oeuvre dbpedia-owl:abstract ?description."+
-								"OPTIONAL{?titre_oeuvre dbpedia2:year ?date}"+
-								"OPTIONAL{?titre_oeuvre dbpedia-owl:museum ?localisation}"+
-								"FILTER(lang(?description)=\"fr\")"+
+								"?titreoeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
+								"?titreoeuvre dbpedia-owl:abstract ?description."+
+								"OPTIONAL{?titreoeuvre dbpedia2:year ?date}"+
+								"OPTIONAL{?titreoeuvre dbpedia-owl:museum ?localisation}"+
+								"FILTER(lang(?description)='fr')"+
 								"}"+
 								"LIMIT 20";
 					}
 					else{
-						result="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
+						result+="SELECT DISTINCT ?titreoeuvre ?description ?date ?localisation"+
 								"WHERE {"+
-								"?titre_oeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
-								"?titre_oeuvre dbpedia-owl:abstract ?description."+
-								"OPTIONAL{?titre_oeuvre dbpedia2:year ?date}"+
-								"?titre_oeuvre dbpedia-owl:museum ?localisation"+
+								"?titreoeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
+								"?titreoeuvre dbpedia-owl:abstract ?description."+
+								"OPTIONAL{?titreoeuvre dbpedia2:year ?date}"+
+								"?titreoeuvre dbpedia-owl:museum ?localisation"+
 								"FILTER regex( ?lieu, "+locations.get(0)+")"+
-								"FILTER(lang(?description)=\"fr\")"+
+								"FILTER(lang(?description)='fr')"+
 								"}"+
 								"LIMIT 20";
 					}
 				}
 				else{
-					if(locations.get(0)==null){
-						result="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
+					if(locations.get(0)==null||locations.get(0)==""||locations.size()==0||locations.get(0).length()==0){
+						result+="SELECT DISTINCT ?titreoeuvre ?description ?date ?localisation"+
 								"WHERE {"+
-								"?titre_oeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
-								"?titre_oeuvre dbpedia-owl:abstract ?description."+
-								"?titre_oeuvre dbpedia2:year ?date"+
-								"OPTIONAL{?titre_oeuvre dbpedia-owl:museum ?localisation}"+
+								"?titreoeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
+								"?titreoeuvre dbpedia-owl:abstract ?description."+
+								"?titreoeuvre dbpedia2:year ?date"+
+								"OPTIONAL{?titreoeuvre dbpedia-owl:museum ?localisation}"+
 								"FILTER(?date<"+periodes.get(1)+")"+
 								"FILTER (?date>"+periodes.get(0)+")"+
-								"FILTER(lang(?description)=\"fr\")"+
+								"FILTER(lang(?description)='fr')"+
 								"}"+
 								"LIMIT 20";
 					}
 					else{
-						result="SELECT DISTINCT ?titre_oeuvre ?description ?date ?localisation"+
+						result+="SELECT DISTINCT ?titreoeuvre ?description ?date ?localisation"+
 								"WHERE {"+
-								"?titre_oeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
-								"?titre_oeuvre dbpedia-owl:abstract ?description."+
-								"?titre_oeuvre dbpedia2:year ?date"+
-								"?titre_oeuvre dbpedia-owl:museum ?localisation"+
+								"?titreoeuvre rdf:type <http://dbpedia.org/ontology/Artwork>  ."+
+								"?titreoeuvre dbpedia-owl:abstract ?description."+
+								"?titreoeuvre dbpedia2:year ?date"+
+								"?titreoeuvre dbpedia-owl:museum ?localisation"+
 								"FILTER(?date<"+periodes.get(1)+")"+
 								"FILTER (?date>"+periodes.get(0)+")"+
 								"FILTER regex( ?lieu, "+locations.get(0)+")"+
-								"FILTER(lang(?description)=\"fr\")"+
+								"FILTER(lang(?description)='fr')"+
 								"}"+
 								"LIMIT 20";
 					}
-				}
+				};break;
 			case"Livre":
-						result="SELECT DISTINCT ?livre ?description"+
+						result+="SELECT DISTINCT ?livre ?description"+
 								"WHERE {"+
 
 							"?livre rdf:type <http://dbpedia.org/ontology/Book>."+
 							"?livre dbpedia-owl:abstract ?description."+
-							"FILTER(lang(?description)=\"fr\")"+
+							"FILTER(lang(?description)='fr')"+
 							"}"+
-							"LIMIT 20";
+							"LIMIT 20";break;
 			
 		}
 		return result;
@@ -192,14 +203,18 @@ public class RecepteurDeCriteres implements CriteriumToListInterface{
 
 	@Override
 	public ArrayList<String> getSubjects() {
-//		Requetes rqt = new Requetes();
-//		String queryString = this.createURL();
-//		rqt.executeQuery(queryString);
-//		this.subjects= rqt.getValeurDesVariables();
-	
-		subjects.add("Le déjeuner sur l'herbe");
-		subjects.add("Guernica");
-		subjects.add("Nighthawks");
+				Requetes rqt = new Requetes();
+				String queryString = this.createURL();
+				rqt.executeQuery(queryString);
+				this.subjects= rqt.getValeurDesVariables();
+
+//		if (flag){
+//			subjects.add("Le déjeuner sur l'herbe");
+//			subjects.add("Guernica");
+//			subjects.add("Nighthawks");
+//			subjects.add("The_Birth_of_Venus_(Bouguereau)");
+//			flag=false;
+//		}
 		return subjects;
 	}
 

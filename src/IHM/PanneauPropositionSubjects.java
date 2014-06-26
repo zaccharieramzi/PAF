@@ -33,7 +33,7 @@ public class PanneauPropositionSubjects extends JPanel{
 			section.add(subjectsList[i]);
 			this.add(subjectsList[i]);
 		}
-		subjectsList[0].setSelected(true);
+		
 		
 		
 	}

@@ -51,6 +51,7 @@ public class PanneauCriteres extends JPanel implements ActionListener{
 		rdc.setPeriod(panneauPeriode.actualize());
 		rdc.setArtDomain(panneauDomaine.actualize());
 		rdc.setLocation(panneauLocation.actualize());
+		
 		fenetre.newCriterium();
 	}
 
