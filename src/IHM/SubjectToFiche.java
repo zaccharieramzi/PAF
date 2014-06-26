@@ -223,7 +223,7 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 					"PREFIX dbpedia: <http://dbpedia.org/>"+
 					"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
 							"select * where {"
-							+ "<http://dbpedia.org/resource/"+this.subject+"> <http://dbpedia.org/ontology/author> ?auteur;"
+							+ "<http://dbpedia.org/resource/"+subject+"> <http://dbpedia.org/ontology/author> ?auteur;"
 							+ "<http://dbpedia.org/property/title> ?name;"
 							+ "<http://dbpedia.org/property/type> ?type;"
 							+ "<http://dbpedia.org/property/year> ?date"
@@ -242,7 +242,7 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 	public void loadFromQuery(){
 		Requetes rqt = new Requetes();
 		String queryString = this.createURL2();
-		rqt.executeQuery(queryString);
+		rqt.executeQuery(queryString,false);
 		this.setDate(rqt.getValeurDesVariables().get(3));
 		this.setAuthorName(rqt.getValeurDesVariables().get(0));
 		this.setNature(rqt.getValeurDesVariables().get(2));

@@ -24,7 +24,7 @@ public class MainSparql {
 						+ "}";
 		
 		Requetes query = new Requetes();
-		query.executeQuery(queryString);
+		query.executeQuery(queryString,false);
 		query.getNomDesVariables();
 		query.getValeurDesVariables();
 		
