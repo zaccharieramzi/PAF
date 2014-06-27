@@ -194,25 +194,27 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 				"PREFIX dbpprop: <http://dbpedia.org/property/>";
 		switch(nature){
 		case "Film":
-			result+="SELECT DISTINCT ?name ?film_starring ?film_abstract ?film_language ?film_country "+
+			result+="SELECT DISTINCT ?author ?name ?description ?date "+
 					"WHERE {"+
 					"<http://dbpedia.org/resource/"+subject+"> rdfs:comment ?film_abstract ."+
 					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> foaf:name ?name }"+
-					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:language ?film_language }"+
-					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:country ?film_country }"+
-					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:starring ?film_starring }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:released ?date }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:director ?author }"+
+					
+					
 					"FILTER(lang(?film_abstract ) = 'fr' )."+
 					"}";break;
 			
 		case "Monuments":
-			result+="SELECT DISTINCT  ?name ?description ?date ?lieu "+
+			result+="SELECT DISTINCT ?architect ?name ?description ?date  "+
 					"WHERE {"+
 
 					
 					"<http://dbpedia.org/resource/"+subject+">  dbpedia-owl:abstract ?description."+
 					"OPTIONAL {<http://dbpedia.org/resource/"+subject+">  foaf:name ?name }"+
 					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:completionDate ?date }"+
-					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:location  ?lieu}"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:architect ?architect}"+
 					"FILTER(lang(?description) = 'fr' )."+
 					"}"+
 					"LIMIT 20";break;
@@ -250,8 +252,8 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 		Requetes rqt = new Requetes();
 		String queryString = this.createURL2();
 		rqt.executeQuery(queryString,1);
-		this.setDate(rqt.getValeurDesVariables().get(3));
-		this.setAuthorName(rqt.getValeurDesVariables().get(0));
+		this.setDate(rqt.getValeurDesVariables().get(3).substring(0, 4));
+		this.setAuthorName(rqt.getValeurDesVariables().get(0).substring(28));
 		this.setDescription(rqt.getValeurDesVariables().get(2));
 		this.setSubject(rqt.getValeurDesVariables().get(1));
 		
