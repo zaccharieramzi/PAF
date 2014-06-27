@@ -1,6 +1,7 @@
 package IHM;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class PanneauLocation extends JPanel {
 	
 	public PanneauLocation(){
 		this.saisie= new JTextField("A quel lieu se rapporte l'oeuvre d'art que vous recherchez?");
+		this.saisie.setPreferredSize(new Dimension(700,20));
 	
 		this.setLayout(new FlowLayout());
 		

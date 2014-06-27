@@ -28,7 +28,7 @@ public class FenetreFiche extends JFrame implements ActionListener{
 		valider.setActionCommand("Valider");
 		valider.addActionListener(this);
 		
-		String[] arg0 = {"authorName","nature","date"};
+		String[] arg0 = {"authorName","description","date"};
 		champs = new PanneauChamp[arg0.length];
 		
 		for(int i=0;i<champs.length;i++){
@@ -65,7 +65,7 @@ public class FenetreFiche extends JFrame implements ActionListener{
 			new FileOutputStream(stf.getSubject()+".pdf"));
 			document.open();
 			document.add(new Paragraph("Le nom de l'auteur est :"+champs[0].actualize()));
-			document.add(new Paragraph("La nature de l'oeuvre est :"+champs[1].actualize()));
+			document.add(new Paragraph("La description de l'oeuvre est :"+champs[1].actualize()));
 			document.add(new Paragraph("La date de composition de l'oeuvre est :"+champs[2].actualize()));
 			} catch (DocumentException de) {
 			de.printStackTrace();

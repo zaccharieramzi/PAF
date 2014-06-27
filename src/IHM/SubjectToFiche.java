@@ -190,51 +190,58 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 				"PREFIX : <http://dbpedia.org/resource/>" +
 				"PREFIX dbpedia2: <http://dbpedia.org/property/>" +
 				"PREFIX dbpedia: <http://dbpedia.org/>"+
-				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>";
+				"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"+
+				"PREFIX dbpprop: <http://dbpedia.org/property/>";
 		switch(nature){
 		case "Film":
-			result+="SELECT DISTINCT ?film_starring ?film_abstract ?film_language ?film_country "+
+			result+="SELECT DISTINCT ?name ?film_starring ?film_abstract ?film_language ?film_country "+
 					"WHERE {"+
 					"<http://dbpedia.org/resource/"+subject+"> rdfs:comment ?film_abstract ."+
-					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:language ?film_language ."+
-					"<http://dbpedia.org/resource/"+subject+"> dbpprop:country ?film_country ."+
-					"<http://dbpedia.org/resource/"+subject+"> dbpprop:starring ?film_starring ."+
-					"FILTER(lang(?film_abstract ) = \"fr\" )."+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> foaf:name ?name }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:language ?film_language }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:country ?film_country }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:starring ?film_starring }"+
+					"FILTER(lang(?film_abstract ) = 'fr' )."+
 					"}";break;
 			
 		case "Monuments":
-			result+="SELECT DISTINCT ?monument ?description ?date ?lieu"+
+			result+="SELECT DISTINCT  ?name ?description ?date ?lieu "+
 					"WHERE {"+
-					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
-					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:designation2Date ?date }"+
-					"OPTIONAL {<http://dbpedia.org/"+subject+"> dbpprop:region ?lieu}"+
-					"FILTER(lang(?description ) = \"fr\" )."+
-					"}";break;
+
+					
+					"<http://dbpedia.org/resource/"+subject+">  dbpedia-owl:abstract ?description."+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+">  foaf:name ?name }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:completionDate ?date }"+
+					"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:location  ?lieu}"+
+					"FILTER(lang(?description) = 'fr' )."+
+					"}"+
+					"LIMIT 20";break;
 			
 		case "Artwork":
-			result="PREFIX owl: <http://www.w3.org/2002/07/owl#>"+
-					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>"+
-					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
-					"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
-					"PREFIX foaf: <http://xmlns.com/foaf/0.1/>" +
-					"PREFIX dc: <http://purl.org/dc/elements/1.1/>" +
-					"PREFIX : <http://dbpedia.org/resource/>" +
-					"PREFIX dbpedia2: <http://dbpedia.org/property/>" +
-					"PREFIX dbpedia: <http://dbpedia.org/>"+
-					"PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
-							"select * where {"
-							+ "<http://dbpedia.org/resource/"+subject+"> <http://dbpedia.org/ontology/author> ?auteur;"
-							+ "<http://dbpedia.org/property/title> ?name;"
-							+ "<http://dbpedia.org/property/type> ?type;"
-							+ "<http://dbpedia.org/property/year> ?date"
-							+ "}";break;
+			result+=		"SELECT DISTINCT ?author ?name ?description ?date "+
+					"WHERE {"+
+					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:author ?author."+
+					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> foaf:name ?name}"+
+					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia2:year ?date}"+
+					"OPTIONAL{<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description}" +
+					"FILTER(lang(?description)='fr')."+		
+					
+				
+					
+					"}";break;
 				
 		case "Livre" :
-			result+="SELECT DISTINCT ?livre ?description"+
+			result+="SELECT DISTINCT ?auteur ?name ?description ?date "+
 					"WHERE {"+
-					"<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description."+
-					"FILTER(lang(?description)=\"fr\")"+
-					"}";break;
+
+				"<http://dbpedia.org/resource/"+subject+"> rdf:type <http://dbpedia.org/ontology/Book>."+
+				"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:name ?name}"+
+				"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpedia-owl:abstract ?description}"+
+				"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:author ?auteur}"+
+				"OPTIONAL {<http://dbpedia.org/resource/"+subject+"> dbpprop:releaseDate ?date}"+
+				"FILTER(lang(?description)='fr')"+
+				"}"+
+				"LIMIT 20";break;
 		}
 		return result;
 	}
@@ -242,10 +249,10 @@ public class SubjectToFiche implements SubjectToFicheInterface {
 	public void loadFromQuery(){
 		Requetes rqt = new Requetes();
 		String queryString = this.createURL2();
-		rqt.executeQuery(queryString,false);
+		rqt.executeQuery(queryString,1);
 		this.setDate(rqt.getValeurDesVariables().get(3));
 		this.setAuthorName(rqt.getValeurDesVariables().get(0));
-		this.setNature(rqt.getValeurDesVariables().get(2));
+		this.setDescription(rqt.getValeurDesVariables().get(2));
 		this.setSubject(rqt.getValeurDesVariables().get(1));
 		
 	}

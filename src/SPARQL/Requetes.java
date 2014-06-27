@@ -18,7 +18,7 @@ public class Requetes {
 	}
 	
 	
-	public void executeQuery (String queryString,boolean first){
+	public void executeQuery (String queryString,int mod){
 		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
 
 		Query query = QueryFactory.create(queryString);
@@ -30,8 +30,9 @@ public class Requetes {
 			while (results.hasNext()) {
 				QuerySolution row= results.next();
 				for(int i =0; i<nomDeColonnes.size(); i++){
-					if(first){
-						if(i%4==0){
+					if(mod!=1){
+						if(i%mod==0){
+//						if(nomDeColonnes.get(i)=="titre_oeuvre"||nomDeColonnes.get(i)=="livre"||nomDeColonnes.get(i)=="titre_film"||nomDeColonnes.get(i)=="monument"){
 							RDFNode thing= row.get(nomDeColonnes.get(i));
 							//					 Literal label=row.getLiteral(nomDeColonnes.get(i));
 							nomDesVariables.add(nomDeColonnes.get(i));
