@@ -14,6 +14,7 @@ public interface CriteriumToListInterface {
 	ArrayList<String> getReference();
 	ArrayList<String> getLocation();
 	void addSubject(String subject);
+	// juste un commentaire
 
 
 
