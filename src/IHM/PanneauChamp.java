@@ -19,5 +19,6 @@ public class PanneauChamp extends JPanel {
 		return saisie.getText();
 	}
 	
+// test 3
 
 }
